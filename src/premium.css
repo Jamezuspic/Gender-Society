@@ -1,0 +1,79 @@
+/* ===== PREMIUM LAYER: overrides and extends index.css ===== */
+
+/* 1. Hero with background photo (src/assets/hero.jpg) */
+.hero{
+  position:relative;min-height:92vh;display:flex;align-items:center;color:#fff;
+  background:
+    linear-gradient(105deg,rgba(18,15,22,.88) 0%,rgba(109,40,217,.55) 55%,rgba(219,39,119,.35) 100%),
+    url('./assets/hero.jpg') center/cover no-repeat;
+}
+.hero p{color:#ece6f3}
+.hero .eyebrow{color:#f9a8d4}
+.hero h1{text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.hero h1 em{background:linear-gradient(90deg,#c4b5fd,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn.ghost{border-color:#fff;color:#fff}
+.btn.ghost:hover{background:#fff;color:var(--ink)}
+
+/* Hero text animates in one line after another on page load */
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.hero .wrap > *{opacity:0;animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+.hero .wrap > :nth-child(1){animation-delay:.1s}
+.hero .wrap > :nth-child(2){animation-delay:.3s}
+.hero .wrap > :nth-child(3){animation-delay:.5s}
+.hero .wrap > :nth-child(4){animation-delay:.7s}
+.hero .wrap > :nth-child(5){animation-delay:.8s}
+
+/* Soft floating glow shapes in the hero */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(60px);opacity:.45;pointer-events:none;animation:float 8s ease-in-out infinite}
+.hero::before{width:280px;height:280px;background:#db2777;right:8%;top:14%}
+.hero::after{width:220px;height:220px;background:#6d28d9;right:24%;bottom:10%;animation-delay:-3s}
+.hero .wrap{position:relative;z-index:1}
+
+/* 2. Photo band with parallax (src/assets/banner.jpg) */
+.banner{
+  padding:150px 0;text-align:center;color:#fff;
+  background:
+    linear-gradient(rgba(18,15,22,.72),rgba(18,15,22,.72)),
+    url('./assets/banner.jpg') center/cover no-repeat;
+}
+.banner .eyebrow{color:#f9a8d4}
+.banner h2{max-width:800px;margin:0 auto;font-size:clamp(1.9rem,4.8vw,3.2rem)}
+.banner h2::after{margin:18px auto 0}
+@media(min-width:900px){.banner{background-attachment:scroll,fixed}}  /* parallax on desktop only */
+
+/* 3. Scroll animations */
+.rv{
+  opacity:0;translate:0 40px;
+  transition:opacity .8s ease,translate .8s cubic-bezier(.2,.7,.2,1),scale .8s ease,transform .3s ease,box-shadow .3s ease;
+}
+.rv.left{translate:-60px 0}
+.rv.right{translate:60px 0}
+.rv.zoom{translate:0 0;scale:.9}
+.rv.show{opacity:1;translate:none;scale:none}
+
+/* 4. Scroll progress bar + shrinking navbar */
+.progress{position:fixed;top:0;left:0;height:4px;z-index:100;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .1s linear}
+header{transition:box-shadow .3s}
+.nav{transition:height .3s}
+header.scrolled{box-shadow:0 8px 30px rgba(29,26,34,.1)}
+header.scrolled .nav{height:56px}
+@media(max-width:760px){nav ul{top:100%}}
+
+/* 5. Premium details: gradient heading underline, softer cards, hover lift */
+h2::after{content:"";display:block;width:64px;height:4px;border-radius:4px;margin-top:14px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.card{box-shadow:0 12px 34px rgba(29,26,34,.07)}
+.card:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(109,40,217,.16)}
+.stat .num{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.law .tag{background:linear-gradient(90deg,#f3e8ff,#ffe4ef)}
+.btn.primary{box-shadow:0 8px 22px rgba(109,40,217,.28)}
+.dark{background:radial-gradient(800px 400px at 80% 0%,rgba(109,40,217,.35),transparent),#1d1a22}
+
+/* 6. Accessibility: switch animations off for people who prefer reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .rv{opacity:1;translate:none;scale:none}
+  .hero .wrap > *{animation:none;opacity:1}
+  .hero::before,.hero::after{animation:none}
+}
+/* Fix: flip cards must fill their grid cell */
+.flip{display:block;width:100%}
